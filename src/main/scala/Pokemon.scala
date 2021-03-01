@@ -1,11 +1,14 @@
 import io.circe.{Decoder, Encoder, HCursor, Json}
-import monocle.Lens
+import monocle.macros.GenLens
+import monocle.{Lens, Optional, Traversal}
 
 final case class Pokemon(id: Int, names: Names, _types: Vector[String], base: Base)
 
 object Pokemon {
   lazy val id: Lens[Pokemon, Int] = ???
-  lazy val names: Lens[Pokemon, Names] = ???
+  lazy val names: Lens[Pokemon, Names] = GenLens[Pokemon](_.names)
+  lazy val _types: Lens[Pokemon, Vector[String]] = GenLens[Pokemon](_._types)
+  lazy val base: Lens[Pokemon, Base] = GenLens[Pokemon](_.base)
 
   implicit val decodePokemon: Decoder[Pokemon] = (c: HCursor) => for {
     id <- c.downField("id").as[Int]
@@ -55,7 +58,18 @@ object Pokemon {
 final case class Names(english: String, japanese: String, chinese: String, french: String)
 
 object Names {
-  lazy val french: Lens[Names, String] = ???
+  lazy val french: Lens[Names, String] = GenLens[Names](_.french)
 }
 
 final case class Base(hp: Int, attack: Int, defense: Int, spAttack: Int, spDefense: Int, speed: Int)
+
+object Base {
+  lazy val values: Traversal[Base, Int] = Traversal.applyN(
+    GenLens[Base](_.hp),
+    GenLens[Base](_.attack),
+    GenLens[Base](_.defense),
+    GenLens[Base](_.spAttack),
+    GenLens[Base](_.spDefense),
+    GenLens[Base](_.speed),
+  )
+}
