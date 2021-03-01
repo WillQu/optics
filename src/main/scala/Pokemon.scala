@@ -1,8 +1,11 @@
 import io.circe.{Decoder, Encoder, HCursor, Json}
+import monocle.Lens
 
 final case class Pokemon(id: Int, names: Names, _types: Vector[String], base: Base)
 
 object Pokemon {
+  lazy val id: Lens[Pokemon, Int] = ???
+  lazy val names: Lens[Pokemon, Names] = ???
 
   implicit val decodePokemon: Decoder[Pokemon] = (c: HCursor) => for {
     id <- c.downField("id").as[Int]
@@ -50,5 +53,9 @@ object Pokemon {
 }
 
 final case class Names(english: String, japanese: String, chinese: String, french: String)
+
+object Names {
+  lazy val french: Lens[Names, String] = ???
+}
 
 final case class Base(hp: Int, attack: Int, defense: Int, spAttack: Int, spDefense: Int, speed: Int)
