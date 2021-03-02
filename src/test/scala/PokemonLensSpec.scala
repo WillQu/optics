@@ -1,4 +1,5 @@
 import cats.instances.list._
+import monocle.Lens
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers._
 
@@ -11,8 +12,8 @@ class PokemonLensSpec extends AnyFlatSpec {
   }
 
   "names" should "compose with french" in {
-    val lens = Pokemon.names andThen Names.french
-    lens.get(pokemon) should be("Bulbizarre")
-    lens.replace("Le Bulbizarre")(pokemon).names.french should be("Le Bulbizarre")
+    val frenchLens: Lens[Pokemon, String] = ???
+    frenchLens.get(pokemon) should be("Bulbizarre")
+    frenchLens.replace("Le Bulbizarre")(pokemon).names.french should be("Le Bulbizarre")
   }
 }

@@ -10,7 +10,7 @@ class PokemonIsoSpec extends AnyFlatSpec {
   }
 
   "a vector" should "be inverted by an iso" in {
-    val iso: Iso[Vector[Pokemon], Vector[Pokemon]] = Iso.involuted(_.reverse)
+    val iso: Iso[Vector[Pokemon], Vector[Pokemon]] = ???
     info(iso.get(pokemons).toString)
     iso.get(pokemons).last.names.french should be("Bulbizarre")
     iso.modify(_.init)(pokemons).head.names.french should be("Herbizarre")

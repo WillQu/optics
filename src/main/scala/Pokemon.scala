@@ -6,9 +6,9 @@ final case class Pokemon(id: Int, names: Names, _types: Vector[String], base: Ba
 
 object Pokemon {
   lazy val id: Lens[Pokemon, Int] = ???
-  lazy val names: Lens[Pokemon, Names] = GenLens[Pokemon](_.names)
-  lazy val _types: Lens[Pokemon, Vector[String]] = GenLens[Pokemon](_._types)
-  lazy val base: Lens[Pokemon, Base] = GenLens[Pokemon](_.base)
+  lazy val names: Lens[Pokemon, Names] = ???
+  lazy val _types: Lens[Pokemon, Vector[String]] = ???
+  lazy val base: Lens[Pokemon, Base] = ???
 
   implicit val decodePokemon: Decoder[Pokemon] = (c: HCursor) => for {
     id <- c.downField("id").as[Int]
@@ -58,22 +58,12 @@ object Pokemon {
 final case class Names(english: String, japanese: String, chinese: String, french: String)
 
 object Names {
-  lazy val french: Lens[Names, String] = GenLens[Names](_.french)
-  lazy val isoNames: Iso[Names, (String, String, String, String)] =
-    Iso[Names, (String, String, String, String)](
-      names => (names.english, names.japanese, names.chinese, names.french)
-    )(tuple => Names(tuple._1, tuple._2, tuple._3, tuple._4))
+  lazy val french: Lens[Names, String] = ???
+  lazy val isoNames: Iso[Names, (String, String, String, String)] = ???
 }
 
 final case class Base(hp: Int, attack: Int, defense: Int, spAttack: Int, spDefense: Int, speed: Int)
 
 object Base {
-  lazy val values: Traversal[Base, Int] = Traversal.applyN(
-    GenLens[Base](_.hp),
-    GenLens[Base](_.attack),
-    GenLens[Base](_.defense),
-    GenLens[Base](_.spAttack),
-    GenLens[Base](_.spDefense),
-    GenLens[Base](_.speed),
-  )
+  lazy val values: Traversal[Base, Int] = ???
 }
