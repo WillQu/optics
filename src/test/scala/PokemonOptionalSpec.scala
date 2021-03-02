@@ -1,9 +1,6 @@
-import cats.instances.list._
 import monocle.{Optional, Traversal}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers._
-
-import scala.+:
 
 class PokemonOptionalSpec extends AnyFlatSpec {
   val pokemons = Pokedex.loadJson().toOption.get

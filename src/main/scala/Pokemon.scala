@@ -1,6 +1,6 @@
 import io.circe.{Decoder, Encoder, HCursor, Json}
 import monocle.macros.GenLens
-import monocle.{Lens, Optional, Traversal}
+import monocle.{Iso, Lens, Optional, Traversal}
 
 final case class Pokemon(id: Int, names: Names, _types: Vector[String], base: Base)
 
@@ -59,6 +59,10 @@ final case class Names(english: String, japanese: String, chinese: String, frenc
 
 object Names {
   lazy val french: Lens[Names, String] = GenLens[Names](_.french)
+  lazy val isoNames: Iso[Names, (String, String, String, String)] =
+    Iso[Names, (String, String, String, String)](
+      names => (names.english, names.japanese, names.chinese, names.french)
+    )(tuple => Names(tuple._1, tuple._2, tuple._3, tuple._4))
 }
 
 final case class Base(hp: Int, attack: Int, defense: Int, spAttack: Int, spDefense: Int, speed: Int)
